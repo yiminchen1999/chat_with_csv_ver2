@@ -4,12 +4,18 @@ import pandas as pd
 from dotenv import load_dotenv 
 import json
 import streamlit as st
-load_dotenv()
+import os
+# Setting up the api key
+import environ
 
+env = environ.Env()
+environ.Env.read_env()
+
+API_KEY = env("apikey")
 def csv_tool(filename : str):
 
     df = pd.read_csv(filename)
-    return create_pandas_dataframe_agent(OpenAI(temperature=0), df, verbose=True)
+    return create_pandas_dataframe_agent(OpenAI(openai_api_key=API_KEY,temperature=0), df, verbose=True)
 
 def ask_agent(agent, query):
     """
